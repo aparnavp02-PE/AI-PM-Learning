@@ -1,0 +1,17 @@
+# Blueprint images (kept locally, not tracked in repo)
+*.png
+*.PNG
+
+# Runtime outputs (generated on each run)
+digest_*.md
+history.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# OS
+.DS_Store
+Thumbs.db

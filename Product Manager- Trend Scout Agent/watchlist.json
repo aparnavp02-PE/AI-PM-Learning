@@ -1,0 +1,17 @@
+{
+  "description": "TrendScout Watch List (PM-AG-002) - Add/remove keywords to control what the agent monitors daily",
+  "keywords": [
+    "Generative AI features",
+    "SaaS pricing changes",
+    "OpenAI product updates",
+    "Anthropic Claude updates",
+    "Notion AI features"
+  ],
+  "examples": [
+    "Competitor A new feature",
+    "ProductName pricing",
+    "AI agents enterprise",
+    "Figma AI updates",
+    "Linear product updates"
+  ]
+}
