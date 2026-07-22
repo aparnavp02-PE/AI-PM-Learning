@@ -1,0 +1,111 @@
+{
+  "name": "AccessibilityBot - WCAG 2.1 Audit",
+  "flow": [
+    {
+      "id": 1,
+      "module": "slack:TriggerNewMessage",
+      "version": 1,
+      "parameters": {
+        "channel": "#a11y-check"
+      },
+      "filter": {
+        "name": "Has Image Attachment",
+        "conditions": [
+          [
+            {
+              "a": "{{1.files[]}}",
+              "b": "",
+              "o": "exist"
+            }
+          ]
+        ]
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "notes": "Step 1 — Trigger: Watch #a11y-check for messages that contain a file attachment. Filter ensures only image uploads proceed."
+      }
+    },
+    {
+      "id": 2,
+      "module": "slack:DownloadFile",
+      "version": 1,
+      "parameters": {
+        "url": "{{1.files[1].url_private}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "notes": "Step 2 — Download Image: Fetches the private Slack file URL using the bot token. Map url_private from the trigger event."
+      }
+    },
+    {
+      "id": 3,
+      "module": "openai:CreateChatCompletion",
+      "version": 1,
+      "parameters": {
+        "model": "gpt-4o",
+        "temperature": 0.1,
+        "max_tokens": 1500,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are AccessibilityBot, a Certified CPACC Accessibility Auditor. You audit UI designs for compliance with WCAG 2.1 Level AA standards.\n\nCore Directives:\n1. Be strict. If a color looks too light, flag it.\n2. Explain WHY it failed.\n3. Provide specific hex code suggestions that would pass.\n4. Cite the specific WCAG Success Criterion for every failure.\n\nYou WILL check: color contrast, missing icon labels, tap target sizes, text size, input labels.\nYou will NOT: fix designs, test screen readers, certify legal compliance."
+          },
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "text",
+                "text": "Audit this UI screenshot for WCAG 2.1 Level AA issues:\n\n1. Color Contrast (WCAG 1.4.3) — Normal text ≥4.5:1; Large text ≥3:1; Decorative: exempt.\n2. Touch Targets (WCAG 2.5.5) — Interactive elements ≥44×44px. Phrase as 'appears to be smaller than 44px'.\n3. Missing Labels (WCAG 1.1.1, 4.1.2) — Icons without visible text labels.\n4. Text Size (WCAG 1.4.4) — Text appearing smaller than 12px.\n5. Input Labels (WCAG 1.3.1) — Input fields without a visible label.\n\nFor every failure: describe the issue, cite the WCAG criterion, suggest a hex code fix.\nIf no issues: reply '✅ Passed WCAG AA Check — no violations detected.'"
+              },
+              {
+                "type": "image_url",
+                "image_url": {
+                  "url": "data:image/png;base64,{{2.data}}",
+                  "detail": "high"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 },
+        "notes": "Step 3 — GPT-4o Vision Audit: Sends the image + prompts to GPT-4o. 'detail: high' ensures fine-grained pixel analysis. Temperature 0.1 keeps output consistent."
+      }
+    },
+    {
+      "id": 4,
+      "module": "slack:PostMessage",
+      "version": 1,
+      "parameters": {
+        "channel": "{{1.channel}}",
+        "thread_ts": "{{1.event_ts}}",
+        "text": "*Accessibility Audit Report*\n\n{{3.choices[].message.content}}\n\n_Note: AI-assisted check. Use Stark or Figma's accessibility plugin for pixel-perfect verification._",
+        "mrkdwn": true
+      },
+      "metadata": {
+        "designer": { "x": 900, "y": 0 },
+        "notes": "Step 4 — Post Report: Replies in the same Slack thread so context is preserved. thread_ts ties the reply to the original upload."
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  },
+  "_setup_notes": {
+    "connections_required": [
+      "Slack (Bot Token with files:read, chat:write scopes)",
+      "OpenAI (API key with GPT-4o access)"
+    ],
+    "channel_to_create": "#a11y-check",
+    "import_instructions": "In Make.com: Create Scenario > Import Blueprint > paste this JSON. Then connect your Slack and OpenAI accounts."
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "_description": "Brand color palette for AccessibilityBot. Replace the example values with your actual brand colors. The bot uses this to suggest on-brand accessible replacements instead of generic hex codes.",
+  "_instructions": "1. Replace all hex values below with your brand colors. 2. Add/remove roles as needed. 3. Upload this file as context when configuring the GPT-4o call.",
+  "brand": {
+    "name": "Your Brand Name",
+    "version": "1.0"
+  },
+  "colors": {
+    "primary": {
+      "brand_dark": {
+        "hex": "#002244",
+        "name": "Brand Dark Blue",
+        "contrast_on_white": "13.6:1",
+        "contrast_on_light_gray_F5": "11.2:1",
+        "wcag_aa_normal_text": "pass",
+        "wcag_aa_large_text": "pass",
+        "use_for": "Primary headings, CTA button text on light backgrounds"
+      },
+      "brand_mid": {
+        "hex": "#0055B3",
+        "name": "Brand Blue",
+        "contrast_on_white": "7.3:1",
+        "wcag_aa_normal_text": "pass",
+        "wcag_aa_large_text": "pass",
+        "use_for": "Links, secondary buttons, icon fills"
+      },
+      "brand_light": {
+        "hex": "#4D9FFF",
+        "name": "Brand Sky Blue",
+        "contrast_on_white": "2.9:1",
+        "wcag_aa_normal_text": "fail — use only for large text or decorative",
+        "wcag_aa_large_text": "pass",
+        "use_for": "Large headings, decorative accents only"
+      }
+    },
+    "neutral": {
+      "text_primary": {
+        "hex": "#1A1A1A",
+        "name": "Near Black",
+        "contrast_on_white": "18.1:1",
+        "wcag_aa_normal_text": "pass",
+        "use_for": "Body text, primary labels"
+      },
+      "text_secondary": {
+        "hex": "#595959",
+        "name": "Dark Gray",
+        "contrast_on_white": "7.0:1",
+        "wcag_aa_normal_text": "pass",
+        "use_for": "Secondary text, captions, metadata"
+      },
+      "text_muted": {
+        "hex": "#767676",
+        "name": "Mid Gray",
+        "contrast_on_white": "4.5:1",
+        "wcag_aa_normal_text": "pass (minimum threshold)",
+        "use_for": "Placeholder text minimum — prefer text_secondary for body copy"
+      },
+      "disabled": {
+        "hex": "#AAAAAA",
+        "name": "Disabled Gray",
+        "contrast_on_white": "2.3:1",
+        "wcag_aa_normal_text": "fail — exempt as disabled state",
+        "use_for": "Disabled controls only"
+      }
+    },
+    "semantic": {
+      "error": {
+        "hex": "#CC0000",
+        "name": "Error Red",
+        "contrast_on_white": "5.9:1",
+        "wcag_aa_normal_text": "pass",
+        "use_for": "Error states, validation messages"
+      },
+      "success": {
+        "hex": "#2E7D32",
+        "name": "Success Green",
+        "contrast_on_white": "5.1:1",
+        "wcag_aa_normal_text": "pass",
+        "use_for": "Success states, confirmation messages"
+      },
+      "warning": {
+        "hex": "#B45309",
+        "name": "Warning Amber",
+        "contrast_on_white": "4.7:1",
+        "wcag_aa_normal_text": "pass",
+        "use_for": "Warning states, caution indicators"
+      }
+    }
+  }
+}

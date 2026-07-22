@@ -1,0 +1,40 @@
+{
+  "display_information": {
+    "name": "AccessibilityBot",
+    "description": "WCAG 2.1 AA compliance auditor — scans UI screenshots for contrast, label, and tap-target violations.",
+    "background_color": "#1A1A2E"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "AccessibilityBot",
+      "always_online": true
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "channels:history",
+        "channels:read",
+        "chat:write",
+        "files:read",
+        "groups:history",
+        "im:history"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://YOUR_PUBLIC_URL/slack/events",
+      "bot_events": [
+        "message.channels",
+        "message.groups"
+      ]
+    },
+    "interactivity": {
+      "is_enabled": false
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}
